@@ -21,8 +21,9 @@ class GainSliderBox (QWidget):
     self.slider.valueChanged.connect(self.handle_slider_changed)
   
   def handle_text_changed (self):
-    self.slider.setValue(math.floor(int(self.line_edit.text())))
-    self.reservation.reserve(self.gain_idx, math.floor(int(self.line_edit.text())))
+    val = max(self.slider.min_max[0], min(self.slider.min_max[1], math.floor(int(self.line_edit.text()))))
+    self.slider.setValue(val)
+    self.reservation.reserve(self.gain_idx, val)
   
   def handle_slider_changed (self, pos):
     self.line_edit.setText(str(pos * self.slider.single_step))
@@ -34,6 +35,7 @@ class GainSlider (QSlider):
     self.setRange(min_max[0] // single_step, min_max[1] // single_step)
     self.setFixedSize(QSize(30, 300))
     self.single_step = single_step
+    self.min_max = min_max
   
   def get_value (self):
     return self.value * self.single_step

@@ -9,7 +9,7 @@ import numpy as np
 
 class DebugDialog (QDialog):
   def __init__ (self, model, data_len, interval):
-    super().__init__ ()
+    super().__init__()
     self.model = model
     self.setWindowTitle('debug')
     self.resize(QSize(1000, 600))
@@ -23,10 +23,10 @@ class DebugDialog (QDialog):
     layout.addWidget(canvas)
     self.setLayout(layout)
     self.ani = animation.FuncAnimation(self.fig, self.update, frames=None, interval=interval, blit=True, cache_frame_data=False)
-  
+
   def update (self, frame):
     self.data[:, : -1] = self.data[:, 1: ]
-    self.data[:, -1: ] = np.expand_dims(self.model.debug_values, axis=1)
+    self.data[:, -1: ] = np.expand_dims(self.model.debug_values, axis=1) - 2000
     self.ax.cla()
     ret = []
     for data in self.data:

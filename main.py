@@ -67,7 +67,7 @@ class DebugMenu (QMenu):
     self.addAction(action)
   
   def handle_triggered (self):
-    dialog = DebugDialog(debug_values_model, 100, 50)
+    dialog = DebugDialog(debug_values_model, 100, 1)
     dialog.exec()
 
 app = QApplication(sys.argv)

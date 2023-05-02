@@ -1,5 +1,5 @@
 class CurDebugValuesModel:
-  NUM_OF_VALUES = 4
+  NUM_OF_VALUES = 5
   def __init__ (self):
     self.debug_values = [0] * CurDebugValuesModel.NUM_OF_VALUES
   
