@@ -12,6 +12,7 @@ from DebugDialog import DebugDialog
 from PDPannel import PDPannel
 from Debug import DebugThread
 from CurDebugValueModel import CurDebugValuesModel
+from Serial import SerialModel
 
 P_PHI_IDX = 0
 D_PHI_IDX = 1
@@ -24,8 +25,11 @@ D_THETA_DOT_IDX = 7
 P_PSI_DOT_IDX = 8
 D_PSI_DOT_IDX = 9
 
-reservation = GainUpdateReservation()
+serial = SerialModel()
+
+reservation = GainUpdateReservation(serial)
 debug_values_model = CurDebugValuesModel()
+debug_thread = DebugThread(debug_values_model, serial)
 
 class MainWindow (QMainWindow):
   def __init__ (self) -> None:
@@ -56,7 +60,7 @@ class ConnectMenu (QMenu):
     self.addAction(action)
   
   def handle_triggered (self):
-    dialog = ConnectDialog(reservation)
+    dialog = ConnectDialog(serial)
     dialog.exec()
 
 class DebugMenu (QMenu):
@@ -108,7 +112,6 @@ window.setCentralWidget(
   ])
 )
 
-debug_thread = DebugThread(debug_values_model)
 debug_thread.start()
 
 window.show()

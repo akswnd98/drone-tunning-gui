@@ -4,14 +4,11 @@ import ctypes
 class GainUpdateReservation:
   NUM_OF_GAINS = 10
 
-  def __init__ (self):
+  def __init__ (self, serial):
     self.is_changed = False
     self.gains = [0] * GainUpdateReservation.NUM_OF_GAINS
     self.is_connected = False
-
-  def connect (self, port, baud_rate):
-    self.ser = serial.Serial(port, baud_rate)
-    self.is_connected = True
+    self.serial = serial
   
   def reserve (self, gain_idx, pos):
     self.is_changed = True
@@ -27,5 +24,5 @@ class GainUpdateReservation:
       for i in range (0, GainUpdateReservation.NUM_OF_GAINS + 1):
         check_sum += (payload[i] & 0x00ff) + ((payload[i] & 0xff00) >> 8)
       payload[GainUpdateReservation.NUM_OF_GAINS + 1] = 0xffff - check_sum
-      self.ser.write(bytes(payload))
+      self.serial.ser.write(bytes(payload))
       self.is_changed = False

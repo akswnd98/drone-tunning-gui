@@ -3,9 +3,10 @@ from PySide6.QtWidgets import (
   QPushButton, QWidget, QVBoxLayout, 
   QHBoxLayout, QLineEdit, QLabel, QDialog
 )
+from Serial import SerialModel
 
 class ConnectDialog (QDialog):
-  def __init__ (self, reservation):
+  def __init__ (self, serial):
     super().__init__ ()
     self.setWindowTitle('connect')
     self.setFixedSize(QSize(300, 100))
@@ -25,11 +26,11 @@ class ConnectDialog (QDialog):
     h_layout.addWidget(self.port_edit)
     h_layout.addWidget(baudrate_label)
     h_layout.addWidget(self.baudrate_edit)
-    
-    self.reservation = reservation
+
+    self.serial = serial
 
     self.push_button.clicked.connect(self.handle_push_button_click)
   
   def handle_push_button_click (self):
-    self.reservation.connect(self.port_edit.text(), int(self.baudrate_edit.text()))
+    self.serial.connect(self.port_edit.text(), int(self.baudrate_edit.text()))
     self.close()
