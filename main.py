@@ -8,7 +8,7 @@ from PySide6.QtGui import QAction
 from GainUpdateReservation import GainUpdateReservation
 from GainSliderBox import GainSliderBox, GainSlider
 from ConnectDialog import ConnectDialog
-from DebugDialog import DebugDialog
+from DebugDialog import AngleDebugDialog, EscDebugDialog, RawAngleDebugDialog
 from PDPannel import PDPannel
 from Debug import DebugThread
 from CurDebugValueModel import CurDebugValuesModel
@@ -66,13 +66,27 @@ class ConnectMenu (QMenu):
 class DebugMenu (QMenu):
   def __init__ (self):
     super().__init__('debug')
-    action = QAction('debug', self)
-    action.triggered.connect(self.handle_triggered)
+    action = QAction('angle', self)
+    action.triggered.connect(self.handle_angle_debug_triggered)
+    self.addAction(action)
+    action = QAction('esc', self)
+    action.triggered.connect(self.handle_esc_debug_triggered)
+    self.addAction(action)
+    action = QAction('raw angle', self)
+    action.triggered.connect(self.handle_raw_angle_debug_triggered)
     self.addAction(action)
   
-  def handle_triggered (self):
-    dialog = DebugDialog(debug_values_model, 100, 1)
-    dialog.exec()
+  def handle_angle_debug_triggered (self):
+    dialog = AngleDebugDialog(debug_values_model, 100, 1)
+    dialog.show()
+  
+  def handle_esc_debug_triggered (self):
+    dialog = EscDebugDialog(debug_values_model, 100, 1)
+    dialog.show()
+  
+  def handle_raw_angle_debug_triggered (self):
+    dialog = RawAngleDebugDialog(debug_values_model, 100, 1)
+    dialog.show()
 
 app = QApplication(sys.argv)
 
@@ -106,8 +120,8 @@ window.setCentralWidget(
       GainSliderBox('D_theta_dot', GainSlider((0, 300), 1), D_THETA_DOT_IDX, reservation)
     ),
     PDPannel(
-      GainSliderBox('P_psi_dot', GainSlider((0, 300), 1), P_PSI_DOT_IDX, reservation),
-      GainSliderBox('D_psi_dot', GainSlider((0, 300), 1), D_PSI_DOT_IDX, reservation)
+      GainSliderBox('P_psi_dot', GainSlider((0, 1000), 1), P_PSI_DOT_IDX, reservation),
+      GainSliderBox('D_psi_dot', GainSlider((0, 100), 1), D_PSI_DOT_IDX, reservation)
     )
   ])
 )

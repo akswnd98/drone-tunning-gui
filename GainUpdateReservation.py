@@ -7,7 +7,6 @@ class GainUpdateReservation:
   def __init__ (self, serial):
     self.is_changed = False
     self.gains = [0] * GainUpdateReservation.NUM_OF_GAINS
-    self.is_connected = False
     self.serial = serial
   
   def reserve (self, gain_idx, pos):
@@ -15,7 +14,7 @@ class GainUpdateReservation:
     self.gains[gain_idx] = pos
   
   def update (self):
-    if self.is_connected and self.is_changed:
+    if self.serial.is_connected and self.is_changed:
       payload = (ctypes.c_uint16 * (GainUpdateReservation.NUM_OF_GAINS + 2))()
       payload[0] = 0x4020
       for i in range(1, GainUpdateReservation.NUM_OF_GAINS + 1):

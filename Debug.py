@@ -1,7 +1,7 @@
 import threading
 
 class DebugThread:
-  NUM_OF_VALUES = 5
+  NUM_OF_VALUES = 15
   def __init__ (self, model, serial):
     self.ser = None
     self.port = None
@@ -16,11 +16,11 @@ class DebugThread:
     while True:
       if self.serial.ser != None and not self.serial.ser.closed:
         data = self.serial.ser.read(1)
-        if self.payload_cnt == 0 and data == b'\x20':
+        if self.payload_cnt == 0 and data == b'\x80':
           self.rx_buf = b''
           self.rx_buf += data
           self.payload_cnt += 1
-        elif self.payload_cnt == 1 and data == b'\x40':
+        elif self.payload_cnt == 1 and data == b'\x81':
           self.rx_buf += data
           self.payload_cnt += 1
         elif self.payload_cnt >= 2 and self.payload_cnt < 2 + 2 * DebugThread.NUM_OF_VALUES:
